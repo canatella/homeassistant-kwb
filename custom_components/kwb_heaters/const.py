@@ -3,6 +3,8 @@
 DOMAIN = "kwb_heaters"
 DEFAULT_NAME = "KWB"
 DEFAULT_PORT = 23
+# Arbitrary unprivileged default; the serial server must be pointed at it.
+DEFAULT_UDP_PORT = 8899
 DEFAULT_RAW = False
 DEFAULT_PELLET_BULK_DENSITY = 0.65
 DEFAULT_BOILER_EFFICIENCY = 95.0

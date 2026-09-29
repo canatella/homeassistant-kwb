@@ -13,7 +13,7 @@
         },
         "data_description": {
           "name": "Used for the device and its sensor names, for example, Basement heater.",
-          "type": "Choose Serial for a device connected directly to the Home Assistant host, or TCP for a serial-to-Ethernet server."
+          "type": "Choose Serial for a device connected directly to the Home Assistant host, TCP for a serial-to-Ethernet server, or UDP for a server configured to push datagrams to Home Assistant."
         }
       },
       "serial": {
@@ -39,6 +39,20 @@
         "data_description": {
           "host": "For example, 192.168.1.50 or boiler.local. Enter only the hostname or IP address, without a URL scheme or port.",
           "port": "The serial server’s TCP listening port (1–65535). The default is 23; use the port configured on your server.",
+          "raw": "Expose raw packet sensors for troubleshooting. Leave this disabled for normal use."
+        }
+      },
+      "udp": {
+        "title": "UDP connection",
+        "data": {
+          "host": "Hostname or IP address",
+          "port": "Local UDP port",
+          "raw": "Include raw packet sensors"
+        },
+        "description": "Configure the serial server as a UDP client pointing at Home Assistant, then enter its address and the local port it sends to.",
+        "data_description": {
+          "host": "The serial server's address, for example 192.168.1.50. Datagrams from any other source are ignored.",
+          "port": "The local port Home Assistant listens on (1-65535). It must match the destination port configured on the serial server.",
           "raw": "Expose raw packet sensors for troubleshooting. Leave this disabled for normal use."
         }
       },
@@ -73,7 +87,8 @@
     "connection_type": {
       "options": {
         "serial": "Serial",
-        "tcp": "TCP"
+        "tcp": "TCP",
+        "udp": "UDP"
       }
     },
     "heater_model": {

@@ -31,6 +31,7 @@ from .const import (
     DEFAULT_PELLET_PRICE,
     DEFAULT_PORT,
     DEFAULT_RAW,
+    DEFAULT_UDP_PORT,
     DOMAIN,
 )
 
@@ -55,7 +56,7 @@ USER_SCHEMA = vol.Schema(
         ),
         vol.Required(CONF_TYPE, default="tcp"): SelectSelector(
             SelectSelectorConfig(
-                options=["serial", "tcp"],
+                options=["serial", "tcp", "udp"],
                 translation_key="connection_type",
                 mode=SelectSelectorMode.DROPDOWN,
             )
@@ -105,6 +106,8 @@ class KWBConfigFlow(ConfigFlow, domain=DOMAIN):
             self._config = dict(user_input)
             if user_input[CONF_TYPE] == "serial":
                 return await self.async_step_serial()
+            if user_input[CONF_TYPE] == "udp":
+                return await self.async_step_udp()
             return await self.async_step_tcp()
         return self.async_show_form(
             step_id="user", data_schema=USER_SCHEMA, last_step=False
@@ -143,6 +146,22 @@ class KWBConfigFlow(ConfigFlow, domain=DOMAIN):
             user_input,
         )
 
+    async def async_step_udp(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        """Configure the local port the serial server sends datagrams to."""
+        return await self._async_step_connection(
+            "udp",
+            vol.Schema(
+                {
+                    vol.Required(CONF_HOST): vol.All(str, vol.Strip, vol.Length(min=1)),
+                    vol.Required(CONF_PORT, default=DEFAULT_UDP_PORT): cv.port,
+                    vol.Optional(CONF_RAW, default=DEFAULT_RAW): bool,
+                }
+            ),
+            user_input,
+        )
+
     async def _async_step_connection(
         self,
         step_id: str,
@@ -157,7 +176,7 @@ class KWBConfigFlow(ConfigFlow, domain=DOMAIN):
                 unique_id = f"serial:{config[CONF_DEVICE]}"
             else:
                 config[CONF_HOST] = config[CONF_HOST].lower()
-                unique_id = f"tcp:{config[CONF_HOST]}:{config[CONF_PORT]}"
+                unique_id = f"{step_id}:{config[CONF_HOST]}:{config[CONF_PORT]}"
             await self.async_set_unique_id(unique_id)
             self._abort_if_unique_id_configured()
             try:

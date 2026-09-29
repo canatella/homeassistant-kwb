@@ -50,6 +50,15 @@ def create_client(config: Mapping[str, Any], *, reconnect: bool = True) -> KWBCl
     """Open the configured connection (must run in an executor)."""
     if config[CONF_TYPE] == "serial":
         return KWBClient(kwb.PROP_MODE_SERIAL, _serial_device=config[CONF_DEVICE])
+    if config[CONF_TYPE] == "udp":
+        # CONF_PORT is the local port we bind; CONF_HOST is the serial
+        # server's address, used only to reject datagrams from anyone else.
+        # There is no connection, so reconnect has nothing to act on.
+        return KWBClient(
+            kwb.PROP_MODE_UDP,
+            config[CONF_HOST],
+            config[CONF_PORT],
+        )
     return KWBClient(
         kwb.PROP_MODE_TCP,
         config[CONF_HOST],

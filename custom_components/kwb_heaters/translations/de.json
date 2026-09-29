@@ -42,6 +42,20 @@
           "raw": "Zeigt Sensoren für Rohdatenpakete zur Fehlerdiagnose an. Im normalen Betrieb deaktiviert lassen."
         }
       },
+      "udp": {
+        "title": "UDP-Verbindung",
+        "data": {
+          "host": "Hostname oder IP-Adresse",
+          "port": "Lokaler UDP-Port",
+          "raw": "Rohpaket-Sensoren einbeziehen"
+        },
+        "description": "Konfigurieren Sie den seriellen Server als UDP-Client, der auf Home Assistant zeigt, und geben Sie dann seine Adresse und den lokalen Zielport an.",
+        "data_description": {
+          "host": "Adresse des seriellen Servers, zum Beispiel 192.168.1.50. Datagramme anderer Absender werden ignoriert.",
+          "port": "Lokaler Port, auf dem Home Assistant lauscht (1-65535). Er muss mit dem am seriellen Server eingestellten Zielport uebereinstimmen.",
+          "raw": "Rohpaket-Sensoren zur Fehlersuche bereitstellen. Fuer den normalen Betrieb deaktiviert lassen."
+        }
+      },
       "properties": {
         "title": "Heizungs- und Pelleteigenschaften",
         "description": "Gib die Nennleistung deiner Heizung an und passe die Pelleteigenschaften und den Wirkungsgrad an deine Anlage an.",
@@ -73,7 +87,8 @@
     "connection_type": {
       "options": {
         "serial": "Seriell",
-        "tcp": "TCP"
+        "tcp": "TCP",
+        "udp": "UDP"
       }
     },
     "heater_model": {
