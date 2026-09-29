@@ -65,6 +65,16 @@ def create_client(config: Mapping[str, Any], *, reconnect: bool = True) -> KWBCl
             _serial_device=config[CONF_DEVICE],
             _config=signal_map,
         )
+    if config[CONF_TYPE] == "tcp_server":
+        # We listen; the serial server connects to us. CONF_PORT is the local
+        # port and CONF_HOST the only peer accepted. Its own client-mode
+        # reconnect-and-reboot then handles recovery.
+        return KWBClient(
+            kwb.PROP_MODE_TCP_SERVER,
+            config[CONF_HOST],
+            config[CONF_PORT],
+            _config=signal_map,
+        )
     if config[CONF_TYPE] == "udp":
         # CONF_PORT is the local port we bind; CONF_HOST is the serial
         # server's address, used only to reject datagrams from anyone else.

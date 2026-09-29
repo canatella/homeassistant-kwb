@@ -42,6 +42,20 @@
           "raw": "Zeigt Sensoren für Rohdatenpakete zur Fehlerdiagnose an. Im normalen Betrieb deaktiviert lassen."
         }
       },
+      "tcp_server": {
+        "title": "TCP-Server",
+        "data": {
+          "host": "Hostname oder IP-Adresse",
+          "port": "Lokaler TCP-Port",
+          "raw": "Rohpaket-Sensoren einbeziehen"
+        },
+        "description": "Konfigurieren Sie den seriellen Server als TCP-Client, der auf Home Assistant zeigt, und geben Sie dann seine Adresse und den Zielport an.",
+        "data_description": {
+          "host": "Adresse des seriellen Servers, zum Beispiel 192.168.1.50. Verbindungen von anderen Adressen werden abgelehnt.",
+          "port": "Lokaler Port, auf dem Home Assistant lauscht (1-65535). Er muss mit dem am seriellen Server eingestellten Zielport uebereinstimmen.",
+          "raw": "Rohpaket-Sensoren zur Fehlersuche bereitstellen. Fuer den normalen Betrieb deaktiviert lassen."
+        }
+      },
       "udp": {
         "title": "UDP-Verbindung",
         "data": {
@@ -88,7 +102,8 @@
       "options": {
         "serial": "Seriell",
         "tcp": "TCP",
-        "udp": "UDP"
+        "udp": "UDP",
+        "tcp_server": "TCP server"
       }
     },
     "heater_model": {

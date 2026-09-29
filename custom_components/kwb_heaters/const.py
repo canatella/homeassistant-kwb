@@ -5,6 +5,8 @@ DEFAULT_NAME = "KWB"
 DEFAULT_PORT = 23
 # Arbitrary unprivileged default; the serial server must be pointed at it.
 DEFAULT_UDP_PORT = 8899
+# Port the serial server is pointed at when it acts as the TCP client.
+DEFAULT_LISTEN_PORT = 8899
 DEFAULT_RAW = False
 DEFAULT_PELLET_BULK_DENSITY = 0.65
 DEFAULT_BOILER_EFFICIENCY = 95.0

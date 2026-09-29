@@ -42,6 +42,20 @@
           "raw": "Expose raw packet sensors for troubleshooting. Leave this disabled for normal use."
         }
       },
+      "tcp_server": {
+        "title": "TCP server",
+        "data": {
+          "host": "Hostname or IP address",
+          "port": "Local TCP port",
+          "raw": "Include raw packet sensors"
+        },
+        "description": "Configure the serial server as a TCP client pointing at Home Assistant, then enter its address and the port it connects to.",
+        "data_description": {
+          "host": "The serial server's address, for example 192.168.1.50. Connections from any other address are refused.",
+          "port": "The local port Home Assistant listens on (1-65535). It must match the destination port configured on the serial server.",
+          "raw": "Expose raw packet sensors for troubleshooting. Leave this disabled for normal use."
+        }
+      },
       "udp": {
         "title": "UDP connection",
         "data": {
@@ -88,7 +102,8 @@
       "options": {
         "serial": "Serial",
         "tcp": "TCP",
-        "udp": "UDP"
+        "udp": "UDP",
+        "tcp_server": "TCP server"
       }
     },
     "heater_model": {

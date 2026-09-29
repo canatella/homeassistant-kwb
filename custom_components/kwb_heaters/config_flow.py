@@ -31,6 +31,7 @@ from .const import (
     DEFAULT_PELLET_PRICE,
     DEFAULT_PORT,
     DEFAULT_RAW,
+    DEFAULT_LISTEN_PORT,
     DEFAULT_UDP_PORT,
     DOMAIN,
 )
@@ -56,7 +57,7 @@ USER_SCHEMA = vol.Schema(
         ),
         vol.Required(CONF_TYPE, default="tcp"): SelectSelector(
             SelectSelectorConfig(
-                options=["serial", "tcp", "udp"],
+                options=["serial", "tcp", "tcp_server", "udp"],
                 translation_key="connection_type",
                 mode=SelectSelectorMode.DROPDOWN,
             )
@@ -106,6 +107,8 @@ class KWBConfigFlow(ConfigFlow, domain=DOMAIN):
             self._config = dict(user_input)
             if user_input[CONF_TYPE] == "serial":
                 return await self.async_step_serial()
+            if user_input[CONF_TYPE] == "tcp_server":
+                return await self.async_step_tcp_server()
             if user_input[CONF_TYPE] == "udp":
                 return await self.async_step_udp()
             return await self.async_step_tcp()
@@ -140,6 +143,22 @@ class KWBConfigFlow(ConfigFlow, domain=DOMAIN):
                 {
                     vol.Required(CONF_HOST): vol.All(str, vol.Strip, vol.Length(min=1)),
                     vol.Required(CONF_PORT, default=DEFAULT_PORT): cv.port,
+                    vol.Optional(CONF_RAW, default=DEFAULT_RAW): bool,
+                }
+            ),
+            user_input,
+        )
+
+    async def async_step_tcp_server(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        """Configure the local port the serial server connects to."""
+        return await self._async_step_connection(
+            "tcp_server",
+            vol.Schema(
+                {
+                    vol.Required(CONF_HOST): vol.All(str, vol.Strip, vol.Length(min=1)),
+                    vol.Required(CONF_PORT, default=DEFAULT_LISTEN_PORT): cv.port,
                     vol.Optional(CONF_RAW, default=DEFAULT_RAW): bool,
                 }
             ),

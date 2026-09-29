@@ -408,11 +408,11 @@ class ClientTests(unittest.TestCase):
         )
         self.assertEqual(
             set(strings["config"]["step"]),
-            {"user", "serial", "tcp", "udp", "properties"},
+            {"user", "serial", "tcp", "tcp_server", "udp", "properties"},
         )
         self.assertEqual(
             set(strings["selector"]["connection_type"]["options"]),
-            {"serial", "tcp", "udp"},
+            {"serial", "tcp", "tcp_server", "udp"},
         )
 
 
