@@ -407,10 +407,12 @@ class ClientTests(unittest.TestCase):
             strings, json.loads((root / "translations/en.json").read_text())
         )
         self.assertEqual(
-            set(strings["config"]["step"]), {"user", "serial", "tcp", "properties"}
+            set(strings["config"]["step"]),
+            {"user", "serial", "tcp", "udp", "properties"},
         )
         self.assertEqual(
-            set(strings["selector"]["connection_type"]["options"]), {"serial", "tcp"}
+            set(strings["selector"]["connection_type"]["options"]),
+            {"serial", "tcp", "udp"},
         )
 
 

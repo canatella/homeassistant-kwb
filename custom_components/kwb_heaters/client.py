@@ -10,6 +10,8 @@ from homeassistant.const import CONF_DEVICE, CONF_HOST, CONF_PORT, CONF_TYPE
 from homeassistant.core import HomeAssistant
 from pykwb import kwb
 
+from .const import CONF_CONTROLLER, CONF_HEATER_MODEL, SIGNAL_MAP_SOURCES
+
 _LOGGER = logging.getLogger(__name__)
 
 
@@ -46,10 +48,23 @@ class KWBClient(kwb.KWBEasyfire):
         await hass.async_add_executor_job(self._close_connection)
 
 
+def _signal_map_config(config: Mapping[str, Any]) -> dict[str, Any]:
+    """Select the signal map matching the configured heater and controller."""
+    source = SIGNAL_MAP_SOURCES.get(
+        (config.get(CONF_HEATER_MODEL), config.get(CONF_CONTROLLER))
+    )
+    return {} if source is None else {"source": source}
+
+
 def create_client(config: Mapping[str, Any], *, reconnect: bool = True) -> KWBClient:
     """Open the configured connection (must run in an executor)."""
+    signal_map = _signal_map_config(config)
     if config[CONF_TYPE] == "serial":
-        return KWBClient(kwb.PROP_MODE_SERIAL, _serial_device=config[CONF_DEVICE])
+        return KWBClient(
+            kwb.PROP_MODE_SERIAL,
+            _serial_device=config[CONF_DEVICE],
+            _config=signal_map,
+        )
     if config[CONF_TYPE] == "udp":
         # CONF_PORT is the local port we bind; CONF_HOST is the serial
         # server's address, used only to reject datagrams from anyone else.
@@ -58,12 +73,13 @@ def create_client(config: Mapping[str, Any], *, reconnect: bool = True) -> KWBCl
             kwb.PROP_MODE_UDP,
             config[CONF_HOST],
             config[CONF_PORT],
+            _config=signal_map,
         )
     return KWBClient(
         kwb.PROP_MODE_TCP,
         config[CONF_HOST],
         config[CONF_PORT],
-        _config={"connection": {"reconnect": reconnect}},
+        _config={**signal_map, "connection": {"reconnect": reconnect}},
     )
 
 

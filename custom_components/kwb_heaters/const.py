@@ -14,6 +14,14 @@ DEFAULT_PELLET_PRICE = 0.0
 CONF_RAW = "raw"
 CONF_HEATER_MODEL = "heater_model"
 CONF_CONTROLLER = "controller"
+
+# pykwb's messages.csv describes several boiler generations whose field
+# layouts conflict, selected by its "source" column. Only the Easyfire 1 /
+# Comfort 3 mapping is verified against real hardware; anything else falls
+# back to pykwb's default of messages 32/33/64.
+SIGNAL_MAP_SOURCES = {
+    ("easyfire_1", "comfort_3"): "2",
+}
 CONF_NOMINAL_POWER = "nominal_power"
 CONF_PELLET_BULK_DENSITY = "pellet_bulk_density"
 CONF_BOILER_EFFICIENCY = "boiler_efficiency"
