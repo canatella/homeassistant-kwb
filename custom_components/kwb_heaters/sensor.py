@@ -270,6 +270,19 @@ class KWBSensor(KWBEntity, SensorEntity):
 
     @property
     @override
+    def state_class(self) -> SensorStateClass | None:
+        """Every decoded value is an instantaneous reading.
+
+        Without this the recorder keeps no long-term statistics for these
+        sensors, and helpers that require a measurement, such as derivative
+        and statistics, refuse to accept them as a source.
+        """
+        if self._sensor.sensor_type == kwb.PROP_SENSOR_RAW:
+            return None
+        return SensorStateClass.MEASUREMENT
+
+    @property
+    @override
     def native_value(self):
         """Return the state of value."""
         if self._sensor.value is not None and self._sensor.available:
