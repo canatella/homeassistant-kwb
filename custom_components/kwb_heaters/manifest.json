@@ -8,7 +8,7 @@
     "pykwb"
   ],
   "requirements": [
-    "git+https://github.com/canatella/pykwb.git@1241a07d16cfec429d3d6a242fb78e15c3711c52#pykwb==0.0.21"
+    "git+https://github.com/canatella/pykwb.git@c8ad7a496000ae84fe03cddbfbafec2e54a1a92d#pykwb==0.0.22"
   ],
   "config_flow": true,
   "version": "0.2.0",
