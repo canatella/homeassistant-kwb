@@ -8,10 +8,10 @@
     "pykwb"
   ],
   "requirements": [
-    "git+https://github.com/canatella/pykwb.git@5e81cb721dc40d66ac99ef0faf9acc4403ad8e6a#pykwb==0.0.23"
+    "git+https://github.com/canatella/pykwb.git@d98b35396b0f333b43a93495c0e3a44b1767b0cf#pykwb==0.0.24"
   ],
   "config_flow": true,
-  "version": "0.2.0",
+  "version": "0.2.1",
   "dependencies": [
     "integration"
   ]
